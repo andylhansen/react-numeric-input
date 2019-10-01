@@ -301,7 +301,7 @@ class NumericInput extends React.Component
      *     2. Then trim it.
      *     3. Then parse it to number (delegating to this.props.parse if any)
      */
-    componentWillReceiveProps(props)
+    UNSAFE_componentWillReceiveProps(props)
     {
         let _value = String(
             props.value || props.value === 0 ? props.value : ''

@@ -52,7 +52,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 
@@ -127,11 +127,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * The deault behaviour is to start from 0, use step of 1 and display
 	     * integers
 	     */
-
 	    function NumericInput(props) {
 	        _classCallCheck(this, NumericInput);
 
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(NumericInput).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (NumericInput.__proto__ || Object.getPrototypeOf(NumericInput)).call(this, props));
 
 	        _this._timer = null;
 	        _this._valid = undefined;
@@ -166,8 +165,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * When click and hold on a button - the delay before auto changin the value.
 	     * This is a static property and can be modified if needed.
 	     */
-	    //,
-	    // noValidate: false
 
 
 	    /**
@@ -178,8 +175,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	    _createClass(NumericInput, [{
-	        key: "componentWillReceiveProps",
-	        value: function componentWillReceiveProps(props) {
+	        key: "UNSAFE_componentWillReceiveProps",
+	        value: function UNSAFE_componentWillReceiveProps(props) {
 	            var _value = String(props.value || props.value === 0 ? props.value : '').replace(/^\s*|\s*$/, "");
 
 	            this.setState({
@@ -589,23 +586,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var state = this.state;
 	            var css = {};
 
-	            var _props = this.props;
-	            var
-	            // These are ignored in rendering
-	            step = _props.step;
-	            var min = _props.min;
-	            var max = _props.max;
-	            var precision = _props.precision;
-	            var parse = _props.parse;
-	            var format = _props.format;
-	            var value = _props.value;
-	            var type = _props.type;
-	            var style = _props.style;
-	            var defaultValue = _props.defaultValue;
-	            var onInvalid = _props.onInvalid;
-	            var onValid = _props.onValid;
-
-	            var rest = _objectWithoutProperties(_props, ["step", "min", "max", "precision", "parse", "format", "value", "type", "style", "defaultValue", "onInvalid", "onValid"]);
+	            var _props = this.props,
+	                step = _props.step,
+	                min = _props.min,
+	                max = _props.max,
+	                precision = _props.precision,
+	                parse = _props.parse,
+	                format = _props.format,
+	                value = _props.value,
+	                type = _props.type,
+	                style = _props.style,
+	                defaultValue = _props.defaultValue,
+	                onInvalid = _props.onInvalid,
+	                onValid = _props.onValid,
+	                rest = _objectWithoutProperties(_props, ["step", "min", "max", "precision", "parse", "format", "value", "type", "style", "defaultValue", "onInvalid", "onValid"]);
 
 	            // Build the styles
 
@@ -861,7 +855,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    format: null,
 	    // className : '',
 	    mobile: 'auto',
-	    style: {} };
+	    style: {} //,
+	    // noValidate: false
+	};
 	NumericInput.style = {
 
 	    // The wrapper (span)
@@ -1019,13 +1015,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = NumericInput;
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
 
-/***/ }
+/***/ })
 /******/ ])
 });
 ;

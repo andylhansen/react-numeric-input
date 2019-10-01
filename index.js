@@ -43,7 +43,7 @@ module.exports =
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 
@@ -95,7 +95,7 @@ module.exports =
 	    function NumericInput(props) {
 	        _classCallCheck(this, NumericInput);
 
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(NumericInput).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (NumericInput.__proto__ || Object.getPrototypeOf(NumericInput)).call(this, props));
 
 	        _this._timer = null;
 	        _this._valid = undefined;
@@ -116,8 +116,8 @@ module.exports =
 	    }
 
 	    _createClass(NumericInput, [{
-	        key: "componentWillReceiveProps",
-	        value: function componentWillReceiveProps(props) {
+	        key: "UNSAFE_componentWillReceiveProps",
+	        value: function UNSAFE_componentWillReceiveProps(props) {
 	            var _value = String(props.value || props.value === 0 ? props.value : '').replace(/^\s*|\s*$/, "");
 
 	            this.setState({
@@ -314,6 +314,11 @@ module.exports =
 	                            _this3.props.onSelect.call(_this3.refs.input, e);
 	                        }
 	                        break;
+	                    case "selectstart":
+	                        if (_this3.props.onSelectStart) {
+	                            _this3.props.onSelectStart.call(_this3.refs.input, e);
+	                        }
+	                        break;
 	                }
 	            });
 	        }
@@ -391,22 +396,20 @@ module.exports =
 	            var state = this.state;
 	            var css = {};
 
-	            var _props = this.props;
-	            var step = _props.step;
-	            var min = _props.min;
-	            var max = _props.max;
-	            var precision = _props.precision;
-	            var parse = _props.parse;
-	            var format = _props.format;
-	            var value = _props.value;
-	            var type = _props.type;
-	            var style = _props.style;
-	            var defaultValue = _props.defaultValue;
-	            var onInvalid = _props.onInvalid;
-	            var onValid = _props.onValid;
-	            var mobile = _props.mobile;
-
-	            var rest = _objectWithoutProperties(_props, ["step", "min", "max", "precision", "parse", "format", "value", "type", "style", "defaultValue", "onInvalid", "onValid", "mobile"]);
+	            var _props = this.props,
+	                step = _props.step,
+	                min = _props.min,
+	                max = _props.max,
+	                precision = _props.precision,
+	                parse = _props.parse,
+	                format = _props.format,
+	                value = _props.value,
+	                type = _props.type,
+	                style = _props.style,
+	                defaultValue = _props.defaultValue,
+	                onInvalid = _props.onInvalid,
+	                onValid = _props.onValid,
+	                rest = _objectWithoutProperties(_props, ["step", "min", "max", "precision", "parse", "format", "value", "type", "style", "defaultValue", "onInvalid", "onValid"]);
 
 	            for (var x in NumericInput.style) {
 	                css[x] = _extends({}, NumericInput.style[x], style ? style[x] || {} : {});
@@ -414,11 +417,11 @@ module.exports =
 
 	            var hasFormControl = props.className && /\bform-control\b/.test(props.className);
 
-	            var computedMobile = mobile == 'auto' ? IS_BROWSER && 'ontouchstart' in document : mobile;
-	            if (typeof computedMobile == "function") {
-	                computedMobile = computedMobile.call(this);
+	            var mobile = props.mobile == 'auto' ? IS_BROWSER && 'ontouchstart' in document : props.mobile;
+	            if (typeof mobile == "function") {
+	                mobile = mobile.call(this);
 	            }
-	            computedMobile = !!computedMobile;
+	            mobile = !!mobile;
 
 	            var attrs = {
 	                wrap: {
@@ -449,7 +452,7 @@ module.exports =
 	                _extends(attrs.wrap.style, css['wrap.hasFormControl']);
 	            }
 
-	            if (computedMobile && style !== false) {
+	            if (mobile && style !== false) {
 	                _extends(attrs.input.style, css['input.mobile']);
 	                _extends(attrs.btnUp.style, css['btnUp.mobile']);
 	                _extends(attrs.btnDown.style, css['btnDown.mobile']);
@@ -544,6 +547,7 @@ module.exports =
 	                    onKeyDown: this._onKeyDown.bind(this),
 	                    onInput: this._onSelectionChange.bind(this),
 	                    onSelect: this._onSelectionChange.bind(this),
+	                    onSelectStart: this._onSelectionChange.bind(this),
 	                    onFocus: function onFocus() {
 	                        for (var _len5 = arguments.length, args = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
 	                            args[_key5] = arguments[_key5];
@@ -571,7 +575,7 @@ module.exports =
 	                }
 	            }
 
-	            if (computedMobile) {
+	            if (mobile) {
 	                return _react2.default.createElement(
 	                    "span",
 	                    attrs.wrap,
@@ -635,6 +639,7 @@ module.exports =
 	    onValid: PropTypes.func,
 	    onInput: PropTypes.func,
 	    onSelect: PropTypes.func,
+	    onSelectStart: PropTypes.func,
 	    size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 	    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 	    defaultValue: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -803,11 +808,11 @@ module.exports =
 
 	module.exports = NumericInput;
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	module.exports = require("react");
 
-/***/ }
+/***/ })
 /******/ ]);
