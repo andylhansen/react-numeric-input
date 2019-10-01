@@ -11,6 +11,7 @@ export default class Demo extends React.Component
                 value     : { value: 50,                 on: true  },
                 min       : { value: 0,                  on: true  },
                 max       : { value: 100,                on: true  },
+                step      : { value: 1,                  on: true  },
                 precision : { value: 0,                  on: true  },
                 size      : { value: 5,                  on: true  },
                 maxLength : { value: 2,                  on: false },
@@ -20,7 +21,12 @@ export default class Demo extends React.Component
                 required  : { value: true,               on: false },
                 noValidate: { value: true,               on: false },
                 pattern   : { value: "[0-9].[0-9][0-9]", on: false },
-                title     : { value: "The title attr",   on: false }
+                title     : { value: "The title attr",   on: false },
+                snap      : { value: true,               on: false },
+                inputmode : { value: "numeric",          on: false },
+                strict    : { value: true,               on: false },
+                noStyle   : { value: true,               on: false }
+                // library
             }
         }
     }
@@ -173,6 +179,7 @@ export default class Demo extends React.Component
                                         { name: "value"     , type: "text"   },
                                         { name: "min"       , type: "number" },
                                         { name: "max"       , type: "number" },
+                                        { name: "step"      , type: "number", min: 0.001, step: 0.1, precision: 3 },
                                         { name: "precision" , type: "number", min: 0, max: 20 },
                                         { name: "size"      , type: "number", min: 0, max: 60 },
                                         { name: "maxLength" , type: "number", min: 0, max: 20 },
@@ -182,7 +189,11 @@ export default class Demo extends React.Component
                                         { name: "pattern"   , type: "text"   },
                                         { name: "title"     , type: "text"   },
                                         { name: "required"  , type: "bool"   },
-                                        { name: "noValidate", type: "bool"   }
+                                        { name: "noValidate", type: "bool"   },
+                                        { name: "inputmode" , type: "text"   },
+                                        { name: "snap"      , type: "bool"   },
+                                        { name: "strict"    , type: "bool"   },
+                                        { name: "noStyle"   , type: "bool"   }
                                     ])}
                                     {/*
                                     parse	function	parseFloat

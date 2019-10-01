@@ -8,18 +8,21 @@ the browsers. Additionally this component offers more flexible options and can
 be used for any values (differently formatted representations of the internal
 numeric value).
 
-[Live demo](http://vlad-ignatov.github.io/react-numeric-input/examples/v2.0.4/index.html)
+![Demo](https://i.imgur.com/uUnxO73.gif)
+### [**Live demo**](http://vlad-ignatov.github.io/react-numeric-input/)
 
 ## Installation
 ```sh
 npm install react-numeric-input --save
 ```
-Then in your scrips:
+Then in your scripts:
 ```js
 // es6
 import NumericInput from 'react-numeric-input';
 // or es5
 var NumericInput = require('react-numeric-input');
+// or TypeScript
+import * as NumericInput from "react-numeric-input";
 ```
 
 ## Usage
@@ -46,6 +49,19 @@ floating point numbers:
 <NumericInput step={0.1} precision={2} value={50.3}/>
 ```
 
+#### Snap to step
+If you want your component to "snap" to the closest step value while incrementing
+or decrementing (up/down buttons or arrow keys) you can use the `snap` prop:
+```jsx
+<NumericInput step={0.5} precision={2} value={50.3} snap/>
+```
+
+#### Strict vs Loose Mode
+You can type any value in the input as long as it is in focus. On blur, or when
+you attempt to increment/decrement it, the value will be converted to number.
+If you don't want this behaviour, pass `strict` in the props and any value that
+cannot be converted to number will be rejected immediately.
+
 #### Custom format
 By default the component displays the value number as is. However, you can
 provide your own `format` function that will be called with the numeric value
@@ -56,23 +72,37 @@ function myFormat(num) {
 }
 <NumericInput precision={2} value={50.3} step={0.1} format={myFormat}/>
 ```
+Please note that the example above is fine but in most situations if you have custom
+`format` function you will also need to provide custom `parse` function that is able to
+convert whatever the `format` returns back to numeric value. In the example above the
+built-in `parse` function will strip the "$" suffix because internally it uses `parseFloat`.
+However, if the `format` function was returning `"$" + num`, then the `parse` function
+should do something like:
+```js
+function parse(stringValue) {
+    return stringValue.replace(/^\$/, "");
+}
+```
 
 ## Props
-Name         | Type                                | Default
--------------|-------------------------------------|:-------:
-**value**    |`number` or `string`                 | `""` which converts to 0
-**min**      |`number`                             | `Number.MIN_SAFE_INTEGER`
-**max**      |`number`                             | `Number.MAX_SAFE_INTEGER`
-**step**     |`number`                             | 1
-**precision**|`number`                             | 0
-**parse**    |`function`                           | parseFloat
-**format**   |`function`                           | none
-**className**|`string`                             | none
-**disabled** |`boolean`                            | none
-**readOnly** |`boolean`                            | none
-**style**    |`object` or `false`                  | none
-**size**     |`number` or `string`                 | none
-**mobile**   |`true`, `false`, 'auto' or `function`|`auto`
+Name              | Type                                | Default
+------------------|-------------------------------------|:-------:
+**value**         |`number` or `string`                 |`""` which converts to 0
+**min**           |`number` or `function`               |`Number.MIN_SAFE_INTEGER`
+**max**           |`number` or `function`               |`Number.MAX_SAFE_INTEGER`
+**step**          |`number` or `function`               | 1
+**precision**     |`number` or `function`               | 0
+**parse**         |`function`                           | parseFloat
+**format**        |`function`                           | none
+**className**     |`string`                             | none
+**disabled**      |`boolean`                            | none
+**readOnly**      |`boolean`                            | none
+**style**         |`object` or `false`                  | none
+**size**          |`number` or `string`                 | none
+**mobile**        |`true`, `false`, 'auto' or `function`|`auto`
+**snap**          |`boolean`                            | none (false)
+**componentClass**|`string` or `function`               |`"input"`
+**strict**        |`boolean`                            |`false`
 
 Any other option is passed directly the input created by the component. Just
 don't forget to camelCase the attributes. For example `readonly` must be `readOnly`.
@@ -82,7 +112,7 @@ See examples/index.html for examples.
 You can pass callback props like `onClick`, `onMouseOver` etc. and they will be
 attached to the input element and React will call them with `null` scope and the corresponding event. However, there are few special cases to be aware of:
 
-* `onChange`  - Called with `valueAsNumber` and `valueAsString`. The `valueAsNumber` represents the internal numeric value while `valueAsString` is the same as the input value and might be completely different from the numeric one if custom formatting is used.
+* `onChange`  - Called with `valueAsNumber`, `valueAsString` and the `input` element. The `valueAsNumber` represents the internal numeric value while `valueAsString` is the same as the input value and might be completely different from the numeric one if custom formatting is used.
 * `onInvalid` - Will be called with `errorMessage`, `valueAsNumber` and `valueAsString`.
 * `onValid`   - There is no corresponding event in browsers. It will be called when the component transitions from invalid to valid state with the same arguments as onChange: `valueAsNumber` and `valueAsString`.
 
@@ -138,14 +168,38 @@ example an input showing "12.30" will have `getValueAsNumber()` returning `12.3`
 is empty the result would be `0`.
 
 ### setValue()
-An external script that does not "understand" React can still work with this component by reading
-the `_valueAsNumber` or by calling the `setValue()` method exposed on the input element. Here is
-an example with jQuery:
+An external script that does not "understand" React can still work with this
+component by reading the `getValueAsNumber()` or by calling the `setValue()`
+method exposed on the input element. Here is an example with jQuery:
 ```js
 $('input[name="some-input"]')[0].setValue('123mph');
 ```
-Calling this method will invoke the component's `parse` method with the provided argument and then
-it will `setState` causing the usual re-rendering.
+Calling this method will invoke the component's `parse` method with the provided
+argument and then it will `setState` causing the usual re-rendering.
+
+## function props
+In rare cases it might be better to "decide" what the value of certain prop is at
+runtime without having to through the entire ceremony of redux, flux, or whatever
+will make your component to be re-rendered with other props. For example one might
+want to have a variable `step` prop based on the current input value and the change
+direction:
+```js
+<NumericInput step={(component, direction) => {
+	// for values smaller than 10 the step is 0.1
+	// for values greater than 10 the step is 0.01
+	return component.state.value < 10 ? 0.1 : 0.01
+
+	// or have different step depending on the direction
+	return direction === NumericInput.DIRECTION_UP ? 0.01 : 0.1;
+
+	// or just obtain it from somewhere
+	return window.outerWidth % 100 + 1;
+}}>
+```
+The props that support being a function are currently `min`, `max`, `step` and
+`precision`. All those function will be passed the component instance as argument
+and the `step` will also receive the direction as second parameter.
+
 
 ## License
 MIT

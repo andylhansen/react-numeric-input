@@ -1,10 +1,10 @@
 module.exports = {
     entry: {
-        "examples/examples.js": "./examples/examples.jsx"
+        "docs/examples.js": "./src/examples.jsx"
     },
     output: {
-        path: "./",
-        filename: "[name]",
+        path         : "./",
+        filename     : "[name]",
         libraryTarget: "umd"
     },
     module: {
@@ -19,8 +19,9 @@ module.exports = {
         ]
     },
     externals : {
-        "react"    : "React",
-        "react-dom": "ReactDOM"
+        "react"     : "React",
+        "react-dom" : "ReactDOM",
+        "prop-types": "PropTypes"
     },
     resolve : {
         extensions : [ "", ".js", ".jsx" ]

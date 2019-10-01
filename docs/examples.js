@@ -52,7 +52,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 
@@ -72,6 +72,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// import NumericInput from '../index.js';
 
+
 	$(function () {
 	    $('script.jsx').each(function (i, s) {
 	        var div = $('<div/>'),
@@ -90,21 +91,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    });
 	}); /* global $, hljs, NumericInput */
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
 
-/***/ },
+/***/ }),
 /* 2 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
 
-/***/ },
+/***/ }),
 /* 3 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	"use strict";
 
@@ -124,12 +125,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var /* global $, hljs, NumericInput, React */
-	Demo = function (_React$Component) {
+	/* global $, hljs, NumericInput, React */
+	var Demo = function (_React$Component) {
 	    _inherits(Demo, _React$Component);
 
 	    function Demo() {
-	        var _Object$getPrototypeO;
+	        var _ref;
 
 	        _classCallCheck(this, Demo);
 
@@ -138,8 +139,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 
 	        // var that = this;
-
-	        var _this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Demo)).call.apply(_Object$getPrototypeO, [this].concat(args)));
+	        var _this = _possibleConstructorReturn(this, (_ref = Demo.__proto__ || Object.getPrototypeOf(Demo)).call.apply(_ref, [this].concat(args)));
 
 	        _this.state = {
 	            inputProps: {
@@ -148,6 +148,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                value: { value: 50, on: true },
 	                min: { value: 0, on: true },
 	                max: { value: 100, on: true },
+	                step: { value: 1, on: true },
 	                precision: { value: 0, on: true },
 	                size: { value: 5, on: true },
 	                maxLength: { value: 2, on: false },
@@ -157,8 +158,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                required: { value: true, on: false },
 	                noValidate: { value: true, on: false },
 	                pattern: { value: "[0-9].[0-9][0-9]", on: false },
-	                title: { value: "The title attr", on: false }
-	            }
+	                title: { value: "The title attr", on: false },
+	                snap: { value: true, on: false },
+	                inputmode: { value: "numeric", on: false },
+	                strict: { value: true, on: false },
+	                noStyle: { value: true, on: false
+	                    // library
+	                } }
 	        };
 	        return _this;
 	    }
@@ -237,10 +243,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            return config.map(function (props, propName) {
 	                var editor = null;
-	                var type = props.type;
-	                var name = props.name;
 
-	                var rest = _objectWithoutProperties(props, ["type", "name"]);
+	                var type = props.type,
+	                    name = props.name,
+	                    rest = _objectWithoutProperties(props, ["type", "name"]);
 
 	                if (type == 'text') {
 	                    editor = React.createElement("input", {
@@ -271,7 +277,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                checked: _this2.state.inputProps[name].on,
 	                                onChange: _this2.toggleProp.bind(_this2, name)
 	                            }),
-	                            " ",
+	                            "\xA0",
 	                            name
 	                        )
 	                    ),
@@ -356,7 +362,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                React.createElement(
 	                                    "tbody",
 	                                    null,
-	                                    this.renderPropEditors([{ name: "name", type: "text" }, { name: "className", type: "text" }, { name: "value", type: "text" }, { name: "min", type: "number" }, { name: "max", type: "number" }, { name: "precision", type: "number", min: 0, max: 20 }, { name: "size", type: "number", min: 0, max: 60 }, { name: "maxLength", type: "number", min: 0, max: 20 }, { name: "disabled", type: "bool" }, { name: "readOnly", type: "bool" }, { name: "mobile", type: "bool" }, { name: "pattern", type: "text" }, { name: "title", type: "text" }, { name: "required", type: "bool" }, { name: "noValidate", type: "bool" }])
+	                                    this.renderPropEditors([{ name: "name", type: "text" }, { name: "className", type: "text" }, { name: "value", type: "text" }, { name: "min", type: "number" }, { name: "max", type: "number" }, { name: "step", type: "number", min: 0.001, step: 0.1, precision: 3 }, { name: "precision", type: "number", min: 0, max: 20 }, { name: "size", type: "number", min: 0, max: 60 }, { name: "maxLength", type: "number", min: 0, max: 20 }, { name: "disabled", type: "bool" }, { name: "readOnly", type: "bool" }, { name: "mobile", type: "bool" }, { name: "pattern", type: "text" }, { name: "title", type: "text" }, { name: "required", type: "bool" }, { name: "noValidate", type: "bool" }, { name: "inputmode", type: "text" }, { name: "snap", type: "bool" }, { name: "strict", type: "bool" }, { name: "noStyle", type: "bool" }])
 	                                )
 	                            )
 	                        )
@@ -405,7 +411,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.default = Demo;
 
-/***/ }
+/***/ })
 /******/ ])
 });
 ;
