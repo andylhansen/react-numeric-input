@@ -282,8 +282,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	         */
 
 	    }, {
-	        key: 'componentWillUpdate',
-	        value: function componentWillUpdate() {
+	        key: 'UNSAFE_componentWillUpdate',
+	        value: function UNSAFE_componentWillUpdate() {
 	            this.saveSelection();
 	        }
 
